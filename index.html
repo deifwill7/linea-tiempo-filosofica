@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Línea del Tiempo: Filósofos Griegos y sus Aportes Conceptuales a la Paz</title>
+    <!-- Importar fuentes de Google Fonts para replicar el estilo de la imagen -->
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colores extraídos de la imagen de referencia del proceso de RRHH */
+            --bg-color: #212c3b; /* Fondo principal (azul oscuro) */
+            --box-bg-color: #2a3648; /* Fondo de las cajas (azul más claro/grisáceo) */
+            --main-line-color: #8ce0d7; /* Color de la línea central y acentos (verde/cian claro) */
+            --main-text-color: #e0e6ed; /* Color del texto general (gris claro) */
+            --title-color: #ffe08c; /* Color de los títulos principales (amarillo/naranja) */
+            --box-title-color: #8ce0d7; /* Color de los títulos de las cajas (verde/cian claro) */
+            --shadow-color: rgba(140, 224, 215, 0.2); /* Sombra para el efecto de brillo */
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace; /* Fuente principal tipo monoespacio */
+            line-height: 1.6;
+            margin: 0;
+            padding: 30px 20px;
+            background-color: var(--bg-color);
+            color: var(--main-text-color);
+            overflow-x: hidden; /* Evitar scroll horizontal por sombras */
+        }
+
+        .main-title {
+            text-align: center;
+            color: var(--title-color);
+            font-family: 'Aldrich', sans-serif; /* Fuente para el título principal */
+            font-size: 2.5em; /* Ajustado un poco para el texto más largo */
+            text-transform: uppercase;
+            margin-bottom: 50px;
+            line-height: 1.2;
+            text-shadow: 0 0 15px var(--shadow-color); /* Ligero brillo */
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Línea central de la línea de tiempo */
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background-color: var(--main-line-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1.5px;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--shadow-color); /* Ligero brillo en la línea */
+        }
+
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-container.left {
+            left: 0;
+            text-align: right; /* Alinear el texto de las cajas a la derecha */
+        }
+
+        .timeline-container.right {
+            left: 50%;
+            text-align: left; /* Alinear el texto de las cajas a la izquierda */
+        }
+
+        /* Círculos en la línea central */
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--bg-color); /* Fondo del círculo para que se vea el agujero */
+            border: 2px solid var(--main-line-color);
+            top: 40px; /* Ajustar posición vertical, adaptado para el contenido */
+            border-radius: 50%;
+            z-index: 1;
+            /* Efecto de doble círculo y brillo */
+            box-shadow: inset 0 0 0 4px var(--main-line-color), 0 0 0 5px var(--shadow-color);
+        }
+
+        .timeline-container.left::after {
+            right: -10px; /* Posición para el lado izquierdo */
+            transform: translateX(50%); /* Ajuste para que el centro esté en la línea */
+        }
+
+        .timeline-container.right::after {
+            left: -10px; /* Posición para el lado derecho */
+            transform: translateX(-50%); /* Ajuste para que el centro esté en la línea */
+        }
+
+        /* Líneas de conexión desde los círculos a las cajas */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            height: 2px;
+            background-color: var(--main-line-color);
+            top: 50px; /* Alinear con el centro del círculo, adaptado para el contenido */
+            z-index: 0; /* Para que la línea esté detrás del círculo */
+            box-shadow: 0 0 8px var(--shadow-color); /* Ligero brillo en la línea de conexión */
+        }
+
+        .timeline-container.left::before {
+            right: 0; /* Empieza en el borde de la caja */
+            width: 50px; /* Ancho fijo de la línea */
+            transform: translateX(calc(100% + 10px)); /* Mueve para que empiece en el círculo */
+        }
+
+        .timeline-container.right::before {
+            left: 0; /* Empieza en el borde de la caja */
+            width: 50px; /* Ancho fijo de la línea */
+            transform: translateX(calc(-100% - 10px)); /* Mueve para que empiece en el círculo */
+        }
+
+        .timeline-content {
+            padding: 25px;
+            background-color: var(--box-bg-color);
+            position: relative;
+            border-radius: 5px;
+            box-shadow: 0 0 15px var(--shadow-color); /* Sombra/brillo en las cajas */
+            min-height: 100px; /* Altura mínima para que no queden muy pequeñas */
+        }
+
+        /* Estilos específicos para el contenido de los filósofos */
+        .timeline-content h2 {
+            margin-top: 0;
+            color: var(--box-title-color);
+            font-size: 1.4em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .timeline-content h3 { /* Fechas */
+            font-size: 0.85em; /* Un poco más pequeña que la original */
+            color: var(--main-text-color); /* Color de texto general */
+            margin-bottom: 12px;
+            font-style: italic;
+            opacity: 0.8; /* Ligeramente más tenue */
+        }
+
+        .timeline-content h4 { /* Título "Conceptos Clave Asociados" */
+            font-size: 1.05em;
+            color: var(--box-title-color); /* Mismo color que los títulos de caja */
+            margin-top: 15px;
+            margin-bottom: 8px;
+            text-transform: uppercase; /* Para que coincida con el estilo de la imagen */
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-content ul {
+            list-style-type: none; /* Eliminar viñetas */
+            padding-left: 0;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(140, 224, 215, 0.3); /* Línea de acento sutil */
+        }
+        .timeline-content ul li:last-child {
+            border-bottom: none; /* No hay línea en el último elemento */
+        }
+
+        .timeline-content ul li strong { /* Nombre del concepto */
+            color: var(--title-color); /* Color amarillo para resaltarlos */
+            display: block; /* Hace que la definición aparezca debajo */
+            margin-bottom: 3px;
+        }
+        .timeline-content ul li em { /* Término en griego */
+            font-style: italic;
+            color: var(--main-line-color); /* Color cian para los términos griegos */
+            opacity: 0.9;
+        }
+
+        .timeline-content p { /* Párrafos generales */
+            font-size: 0.95em;
+            color: var(--main-text-color);
+        }
+        .timeline-content p.relevance { /* Párrafo de relevancia */
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(140, 224, 215, 0.2); /* Separador sutil */
+        }
+        .timeline-content p.relevance strong {
+            color: var(--box-title-color); /* Resaltar "Relevancia para la Paz" */
+        }
+
+
+        /* Media queries para pantallas más pequeñas (modo móvil) */
+        @media screen and (max-width: 768px) {
+            .main-title {
+                font-size: 2em; /* Ajuste para móviles */
+            }
+            .timeline::after {
+                left: 20px; /* Mover la línea central a la izquierda */
+            }
+            .timeline-container {
+                width: 100%;
+                padding-left: 50px; /* Espacio para la línea y el círculo */
+                padding-right: 15px;
+            }
+            .timeline-container.left, .timeline-container.right {
+                left: 0%; /* Todas las cajas a la izquierda */
+                text-align: left; /* Alinear el texto de todas las cajas a la izquierda */
+            }
+
+            /* Ajustar los círculos para que estén en la nueva línea central */
+            .timeline-container.left::after, .timeline-container.right::after {
+                left: 10px;
+                transform: translateX(0); /* Resetear transform para que se alineen con la línea */
+            }
+
+            /* Ajustar las líneas de conexión para el modo móvil */
+            .timeline-container.left::before, .timeline-container.right::before {
+                left: 0; /* Empieza en el borde de la caja */
+                width: 50px; /* Ancho fijo de la línea */
+                transform: translateX(calc(100% + 10px)); /* Mueve para que empiece en el círculo */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="main-title">Línea del Tiempo: <br> Filósofos Griegos y sus Aportes Conceptuales a la Paz</h1>
+
+    <div class="timeline">
+        <div class="timeline-container left">
+            <div class="timeline-content">
+                <h2>Aristóteles</h2>
+                <h3>Fechas: 384 – 322 a.C.</h3>
+                <h4>Conceptos Clave Asociados:</h4>
+                <ul>
+                    <li><strong>Justicia (<em>dikaiosyne</em>):</strong> Dar a cada uno lo que le corresponde; virtud esencial para el orden social y la equidad en la comunidad.</li>
+                    <li><strong>Vivir bien / Florecimiento humano (<em>eudaimonia</em>):</strong> La realización plena de las capacidades humanas a través de una vida virtuosa; el fin último del ser humano.</li>
+                    <li><strong>Estabilidad de la <em>polis</em>:</strong> Condición de orden y permanencia en la ciudad-Estado, lograda mediante buenas leyes, justicia y participación ciudadana virtuosa.</li>
+                    <li><strong>Virtud cívica:</strong> Cualidades y hábitos excelentes del ciudadano (prudencia, justicia) que contribuyen al bien común y la salud de la <em>polis</em>.</li>
+                </ul>
+                <p class="relevance"><strong>Relevancia para la Paz:</strong> La justicia es crucial para una sociedad estable y armónica. Una comunidad que busca el bien común y trata con equidad a sus miembros facilita la convivencia pacífica.</p>
+            </div>
+        </div>
+        <div class="timeline-container right">
+            <div class="timeline-content">
+                <h2>Epicuro (Epicureísmo)</h2>
+                <h3>Fechas: 341 – 270 a.C.</h3>
+                <h4>Conceptos Clave Asociados:</h4>
+                <ul>
+                    <li><strong>Tranquilidad del alma (<em>ataraxia</em>):</strong> Estado de serenidad y paz interior, libre de miedos y perturbaciones; meta principal de la vida filosófica epicúrea.</li>
+                    <li><strong>Ausencia de dolor (<em>aponía</em>):</strong> Estado de bienestar físico, sin sufrimiento corporal; componente esencial del placer y la felicidad según Epicuro.</li>
+                    <li><strong>Amistad (<em>philia</em>):</strong> Vínculo afectivo y de confianza mutua, considerado por Epicuro como uno de los mayores placeres y soportes de la vida feliz.</li>
+                    <li><strong>Justicia como pacto:</strong> Acuerdo social para no dañar ni ser dañado, basado en la utilidad mutua para asegurar la convivencia pacífica.</li>
+                </ul>
+                <p class="relevance"><strong>Relevancia para la Paz:</strong> La búsqueda de la paz interior y la valoración de la amistad son fundamentales para sanar y reconstruir el tejido social. La justicia entendida como un acuerdo para no dañarse es vital para la coexistencia.</p>
+            </div>
+        </div>
+        <div class="timeline-container left">
+            <div class="timeline-content">
+                <h2>Zenón de Citio (Estoicismo)</h2>
+                <h3>Fechas: c. 334 – c. 262 a.C. (Escuela Estoica perdura por varios siglos)</h3>
+                <h4>Conceptos Clave Asociados:</h4>
+                <ul>
+                    <li><strong>Cosmopolitismo:</strong> Idea de que todos los seres humanos son ciudadanos de una única comunidad universal (la <em>cosmópolis</em>), regida por la razón.</li>
+                    <li><strong>Razón universal (<em>Logos</em>):</strong> Principio divino y racional que ordena el cosmos y reside en cada ser humano, guiando hacia una vida virtuosa.</li>
+                    <li><strong>Serenidad / Impasibilidad (<em>apatheia</em>):</strong> Estado de libertad frente a las pasiones perturbadoras, logrado por la razón y la virtud, permitiendo actuar con ecuanimidad.</li>
+                    <li><strong>Deber (<em>kathēkon</em>):</strong> Acción apropiada o correcta según la naturaleza y la razón; cumplir con los deberes es esencial para la vida virtuosa.</li>
+                </ul>
+                <p class="relevance"><strong>Relevancia para la Paz:</strong> Reconocer nuestra humanidad compartida y actuar con serenidad racional ayuda a superar divisiones y a tomar decisiones más justas.</p>
+            </div>
+        </div>
+        <div class="timeline-container right">
+            <div class="timeline-content">
+                <h2>Pirrón de Elis (Escepticismo)</h2>
+                <h3>Fechas: c. 360 – c. 270 a.C. (Posterior desarrollo con Sexto Empírico, S. II d.C.)</h3>
+                <h4>Conceptos Clave Asociados:</h4>
+                <ul>
+                    <li><strong>Suspensión del juicio (<em>epoché</em>):</strong> Abstenerse de afirmar o negar cualquier proposición dogmática, como un camino para alcanzar la tranquilidad mental.</li>
+                    <li><strong>Imperturbabilidad (<em>ataraxia</em>):</strong> Estado de serenidad y paz interior que resulta de la suspensión del juicio, liberando de la ansiedad por las disputas dogmáticas.</li>
+                    <li><strong>Cuestionamiento del dogmatismo:</strong> Práctica de examinar críticamente y poner en duda las afirmaciones consideradas verdades absolutas o creencias no fundamentadas.</li>
+                </ul>
+                <p class="relevance"><strong>Relevancia para la Paz:</strong> La suspensión del juicio dogmático fomenta la escucha, el diálogo y la comprensión de múltiples perspectivas, esenciales para construir entendimientos.</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
